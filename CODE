@@ -1,0 +1,25 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+
+data = {
+    'X':  [1, 2, 3, 8, 10, 1.5, 2.5, 8.5, 9.5,8],
+    'Y':  [1, 2, 8, 8, 9, 8, 1.2, 1.8, 8.2, 9.1]
+}
+
+df = pd.DataFrame(data)
+X = df[['X', 'Y']]
+
+wcss = []
+for k in range(1, 11):
+    kmeans = KMeans(n_clusters=k, init='k-means++', random_state=0)
+    kmeans.fit(X)
+    wcss.append(kmeans.inertia_)  # inertia_ gives WCSS
+
+# Plotting outside loop
+plt.plot(range(1, 11), wcss, marker='o')
+plt.title("Elbow Method")
+plt.xlabel("Number of Clusters (K)")
+plt.ylabel("WCSS (Within Cluster Sum of Squares)")
+plt.grid(True)
+plt.show()
