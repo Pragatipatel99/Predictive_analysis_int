@@ -14,9 +14,8 @@ from sklearn.linear_model import LogisticRegression
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# ---------------------------------------------------------
-# STEP 1: LOAD THE DATASET
-# ---------------------------------------------------------
+
+
 
 df = pd.read_csv(r"C:/Users/praga/Downloads/fruits_dataset.csv")
 
@@ -29,9 +28,7 @@ print(df.info())
 print("\nMissing values in each column:")
 print(df.isnull().sum())
 
-# ---------------------------------------------------------
-# STEP 2: EXPLORATORY DATA ANALYSIS (EDA)
-# ---------------------------------------------------------
+
 
 print("\nStatistical summary of numeric columns:")
 print(df.describe())
