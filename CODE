@@ -1,25 +1,55 @@
 import pandas as pd
+import numpy as np
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.metrics import confusion_matrix, accuracy_score, classification_report
+
+from sklearn.naive_bayes import GaussianNB
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.svm import SVC
+from sklearn.linear_model import LogisticRegression
+
 import matplotlib.pyplot as plt
-from sklearn.cluster import KMeans
+import seaborn as sns
 
-data = {
-    'X':  [1, 2, 3, 8, 10, 1.5, 2.5, 8.5, 9.5,8],
-    'Y':  [1, 2, 8, 8, 9, 8, 1.2, 1.8, 8.2, 9.1]
-}
+# ---------------------------------------------------------
+# STEP 1: LOAD THE DATASET
+# ---------------------------------------------------------
 
-df = pd.DataFrame(data)
-X = df[['X', 'Y']]
+df = pd.read_csv(r"C:/Users/praga/Downloads/fruits_dataset.csv")
 
-wcss = []
-for k in range(1, 11):
-    kmeans = KMeans(n_clusters=k, init='k-means++', random_state=0)
-    kmeans.fit(X)
-    wcss.append(kmeans.inertia_)  # inertia_ gives WCSS
+print("Dataset head:")
+print(df.head())
 
-# Plotting outside loop
-plt.plot(range(1, 11), wcss, marker='o')
-plt.title("Elbow Method")
-plt.xlabel("Number of Clusters (K)")
-plt.ylabel("WCSS (Within Cluster Sum of Squares)")
-plt.grid(True)
+print("\nDataset info:")
+print(df.info())
+
+print("\nMissing values in each column:")
+print(df.isnull().sum())
+
+# ---------------------------------------------------------
+# STEP 2: EXPLORATORY DATA ANALYSIS (EDA)
+# ---------------------------------------------------------
+
+print("\nStatistical summary of numeric columns:")
+print(df.describe())
+
+print("\nUnique taste profiles:")
+print(df["taste_profile"].value_counts())
+
+print("\nUnique seasons:")
+print(df["season"].value_counts())
+
+numeric_cols = ["sugar_g", "calories", "acidity_pH", "avg_weight_g", "water_percent", "fiber_g_per_100g", "shelf_life_days"]
+corr_matrix = df[numeric_cols].corr()
+
+print("\nCorrelation matrix (numeric features):")
+print(corr_matrix)
+
+plt.figure(figsize=(8, 6))
+sns.heatmap(corr_matrix, annot=True)
+plt.title("Correlation Heatmap of Numeric Features")
+plt.tight_layout()
 plt.show()
